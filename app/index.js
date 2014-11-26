@@ -1,0 +1,189 @@
+'use strict';
+var util = require('util');
+var path = require('path');
+var yeoman = require('yeoman-generator');
+var yosay = require('yosay');
+var chalk = require('chalk');
+
+
+var CoronaGenerator = yeoman.generators.Base.extend({
+  initializing: function () {
+    //////////////////////////////
+    /// Sass directory.
+    //////////////////////////////
+    this.sassDir = null;
+
+    if (this.config.get['sassDir']) {
+      this.sassDir = this.config.get['sassDir'];
+    }
+    if (this.options.sassDir) {
+      this.sassDir = this.options.sassDir;
+    }
+
+    //////////////////////////////
+    /// CSS directory.
+    //////////////////////////////
+    this.cssDir = null;
+
+    if (this.config.get['cssDir']) {
+      this.cssDir = this.config.get['cssDir'];
+    }
+    if (this.options.syntax) {
+      this.cssDir = this.options.cssDir;
+    }
+
+    //////////////////////////////
+    /// Fonts directory.
+    //////////////////////////////
+    this.fontsDir = null;
+
+    if (this.config.get['fontsDir']) {
+      this.fontsDir = this.config.get['fontsDir'];
+    }
+    if (this.options.fontsDir) {
+      this.fontsDir = this.options.fontsDir;
+    }
+
+
+    this.on('end', function () {
+
+    });
+  },
+
+  install: function() {
+    if (!this.options['skip-install']) {
+
+    }
+  }
+});
+
+CoronaGenerator.prototype.welcome = function() {
+  var cb = this.async();
+  if (!this.options['skip-welcome-message']) {
+
+    // Have Yeoman greet the user.
+    this.log(yosay('Welcome to the Corona Sass partial generator!'));
+
+    this.log(
+      chalk.green(
+        'This generator will create the scaffolding for Sass partials within your project folder. ' + '\n'
+      )
+    );
+  }
+
+  cb();
+};
+
+CoronaGenerator.prototype.askFor = function() {
+  var done = this.async(),
+    prompts = [];
+
+
+  // Sass Folder
+  if (!this.sassDir) {
+    prompts.push({
+      type: 'string',
+      name: 'sassDir',
+      message: 'What folder would you like to use for your Sass files?',
+      default: 'sass',
+      validate: function (input) {
+        if (input === '') {
+          return 'Please enter the sass folder';
+        }
+        return true;
+      }
+    });
+  }
+
+  // CSS Folder
+  if (!this.cssDir) {
+    prompts.push({
+      type: 'string',
+      name: 'cssDir',
+      message: 'What folder would you like to use for your CSS output?',
+      default: 'css',
+      validate: function (input) {
+        if (input === '') {
+          return 'Please enter the CSS folder';
+        }
+        return true;
+      }
+    });
+  }
+
+  if (prompts.length === 0) {
+    done();
+  }
+  else {
+    this.prompt(prompts, function (props) {
+      this.sassDir = props.sassDir;
+      this.cssDir = props.cssDir;
+
+      done();
+    }.bind(this));
+  }
+};
+
+CoronaGenerator.prototype.app = function() {
+  var files,
+    partials,
+    folders,
+    base,
+    gems;
+
+  files = [
+    'style'
+  ]
+
+  partials = [
+  ];
+
+  folders = [
+    'components',
+    'layouts'
+  ];
+
+  this.composeWith('sass:structure', {
+    options: {
+      syntax: 'scss',
+      base: base,
+      files: files,
+      partials: partials,
+      folders: partials.concat(folders),
+      fileTemplate: this.sourceRoot() + '/_style.scss'
+    }
+  });
+
+  gems = {
+    'sass': '~>3.4',
+    'compass': '~>1.0',
+    'breakpoint': '~>2.5',
+    'singularitygs': '~>1.4',
+    'toolkit': '~>2.6'
+  };
+
+  this.composeWith('sass:compass', {
+    options: {
+      gems: gems,
+      httpPath: './',
+      cssDir: this.cssDir,
+      sassDir: this.sassDir,
+      imagesDir: 'images',
+      jsDir: 'js',
+      fontsDir: 'fonts',
+      outputStyle: ':expanded',
+      relativeAssets: true,
+      lineComments: false,
+      sassOptions: {
+        ':sourcemaps': true
+      },
+      'skip-install': this.options['skip-install']
+    }
+  });
+
+  this.directory('config', this.sassDir + '/config');
+  this.directory('global', this.sassDir + 'global');
+  this.copy('_print.scss', this.sassDir + '/_print.scss');
+};
+
+module.exports = CoronaGenerator;

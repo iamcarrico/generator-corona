@@ -1,0 +1,45 @@
+////////////////////////
+// Configuration partials
+//
+// These files will be shared across all three of your output CSS files.
+// Generally included here are only Compass Extension imports and imports
+// for variables, functions, mixins, and extendables.
+////////////////////////
+
+
+////////////////////////////
+// Cross Browser Support
+$graceful-usage-threshold: 100 !default;;
+$critical-usage-threshold: 100 !default;;
+
+$browser-minimum-versions: (
+  "ie": "9",
+  "android": "4",
+  "chrome": "37",
+  "safari": "7",
+  "firefox": "30",
+  "ios-safari": "8"
+) !default;;
+////////////////////////////
+
+////////////////////////
+// Compass Extensions
+//
+// Add any other compass extensions you want to us here.
+//
+@import "toolkit";
+@import "toolkit/kickstart";
+@import "breakpoint";
+@import "singularitygs";
+////////////////////////
+
+////////////////////////
+// Private imports
+//
+// Any other imports to add. Normally, these do not include any css, but just
+// functions, variables, etc. to be used by other files.
+//
+@import "functions";
+@import "mixins";
+@import "variables";
+////////////////////////

@@ -1,0 +1,39 @@
+{
+  "name": "generator-corona",
+  "version": "0.0.1",
+  "description": "A Yeoman generator to scaffold out Sass partials. Based on the Corona partial layout.",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": "iamcarrico/generator-corona",
+  "author": {
+    "name": "Ian Carrico",
+    "email": "github@iancarrico.com",
+    "url": "https://github.com/iamcarrico"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "app"
+  ],
+  "keywords": [
+    "yeoman-generator",
+    "sass",
+    "compass"
+  ],
+  "dependencies": {
+    "yeoman-generator": "~0.17.0",
+    "chalk": "~0.4.0",
+    "yosay": "^0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "peerDependencies": {
+    "generator-sass": "<1.0.0",
+    "yo": ">=1.0.0"
+  }
+}
