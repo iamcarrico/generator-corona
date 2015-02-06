@@ -104,21 +104,21 @@ var CoronaGenerator = yeoman.generators.Base.extend({
 
   default: function () {
     var files,
-    partials,
-    folders,
-    base,
-    gems;
+      partials,
+      folders,
+      base,
+      gems;
 
     files = [
-    'style'
+      'style'
     ]
 
     partials = [
     ];
 
     folders = [
-    'components',
-    'layouts'
+      'components',
+      'layouts'
     ];
 
     this.composeWith('sass:structure', {
@@ -155,7 +155,8 @@ var CoronaGenerator = yeoman.generators.Base.extend({
         sassOptions: {
           ':sourcemaps': true
         },
-        'skip-install': this.options['skip-install']
+        'skip-install': this.options['skip-install'],
+        'skip-gemfile': this.options['skip-gemfile']
       }
     });
 
